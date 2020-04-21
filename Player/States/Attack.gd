@@ -37,20 +37,20 @@ func state_check(anim:String = '')->void:
 	if !anim.empty():
 		if player.is_grounded:
 			if anim == "Attack1" && hit:
-				animation.play("Attack2")
 				player.facing_direction()
 				set_impulse(att_spd2, att_dcc2)
 				hit = false
+				animation.play("Attack2")
 			elif anim == "Attack2" && hit:
-				animation.play("Attack3")
 				player.facing_direction()
 				set_impulse(att_spd3, att_dcc3)
 				hit = false
+				animation.play("Attack3")
 			elif anim == "Attack3" && hit:
-				animation.play("Attack1")
 				player.facing_direction()
 				set_impulse(att_spd1, att_dcc1)
 				hit = false
+				animation.play("Attack1")
 			else:
 				_state_machine.transition_to('Idle', {})
 		else:

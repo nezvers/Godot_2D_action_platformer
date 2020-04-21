@@ -12,7 +12,12 @@ var rayGround:bool
 var jump_top_threshold = 100.0
 
 func unhandled_input(event:InputEvent)->void:
-	player.unhandled_input(event)
+	if event.is_action_pressed("attack"):
+		if player.has_sword:
+			_state_machine.transition_to("Attack_air", {})
+			player.sword_is_active = true
+	else:
+		player.unhandled_input(event)
 
 func physics_process(delta:float)->void:
 	if player.cornercheck == 0 && player.down <= 0.01:	#place is free for corner collision shape

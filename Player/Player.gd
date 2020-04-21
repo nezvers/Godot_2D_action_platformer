@@ -16,10 +16,13 @@ var acceleration:	= 10.0 * 60.0
 var jump_speed:		= -5.0 * 60.0
 var jump_release:	= jump_speed * 0.2
 var gravity_speed:	= 17.0 * 60.0
+var attack_gravity: = 5.0 * 60.0
+
 var gravity:		= gravity_speed
 
 var normal_fall:	= -jump_speed
 var wall_fall:		= 1.0 * 60.0
+var attack_fall:	= 2.0 * 60.0
 var fall_limit:		= normal_fall
 
 var direction:		= 0.0
@@ -146,7 +149,6 @@ func damage(dir:float, dmg:float = 0.0)->void:
 
 func set_has_sword(value: bool)->void:
 	has_sword = value
-	print('has sword: ', value)
 	if has_sword:
 		$Body/Sprite.texture = WeaponSprite
 	else:
@@ -156,7 +158,6 @@ func set_sword_is_active(value:bool)->void:
 #	if !has_sword || value == has_sword:	#don't have sword or same state
 #		return
 	sword_is_active = value
-	print('has sword_is_active: ', value)
 
 func _on_CornerSpaceCheck_body_entered(body):
 	cornercheck += 1
