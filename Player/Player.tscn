@@ -97,7 +97,6 @@ texture = ExtResource( 1 )
 centered = false
 vframes = 20
 hframes = 10
-frame = 104
 
 [node name="ItemParent" type="Position2D" parent="Body"]
 position = Vector2( 9, -11 )
@@ -115,7 +114,7 @@ shape = SubResource( 4 )
 
 [node name="Grnd1" type="RayCast2D" parent="Body"]
 visible = false
-position = Vector2( -4, 0 )
+position = Vector2( -5, 0 )
 cast_to = Vector2( 0, 1 )
 
 [node name="Grnd2" type="RayCast2D" parent="Body"]
@@ -124,7 +123,7 @@ cast_to = Vector2( 0, 1 )
 
 [node name="Grnd3" type="RayCast2D" parent="Body"]
 visible = false
-position = Vector2( 4, 0 )
+position = Vector2( 5, 0 )
 cast_to = Vector2( 0, 1 )
 
 [node name="HeadCheck1" type="RayCast2D" parent="Body"]

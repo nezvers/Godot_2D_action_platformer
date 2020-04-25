@@ -18,14 +18,24 @@ func gravity_logic(delta:float)->void:
 		player.velocity.y += player.gravity * delta
 	player.velocity.y = min(player.velocity.y, player.fall_limit)
 
+func process(delta:float)->void:
+	state_check()
+
 func state_check(anim:String = '')->void:
 	if !anim.empty():
 		_state_machine.transition_to("Idle", {})
+	elif !player.is_grounded:
+		if player.jump:
+			_state_machine.transition_to("Jump", {})
+		else:
+			_state_machine.transition_to("Jump_top", {})
+	elif abs(player.direction) > 0.01:
+		_state_machine.transition_to("Run", {})
 
 func enter(msg:Dictionary = {})->void:
+	player.sword_is_active = false
 	animation.play("Sheath")
 	animation.connect("animation_finished", self, "state_check")
 
 func exit()->void:
 	animation.disconnect("animation_finished", self, "state_check")
-	player.sword_is_active = false

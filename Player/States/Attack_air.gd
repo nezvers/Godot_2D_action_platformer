@@ -69,6 +69,7 @@ func enter(msg:Dictionary = {})->void:
 	player.velocity.y = 0.0
 	player.gravity = player.attack_gravity
 	player.fall_limit = player.attack_fall
+	player.jump = false
 	animation.play("Attack1_air")
 	set_impulse(att_spd1, att_dcc1)
 	animation.connect("animation_finished", self, "state_check")

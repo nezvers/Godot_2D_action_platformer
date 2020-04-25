@@ -67,10 +67,10 @@ func unhandled_input(event:InputEvent)->void:
 		direction -= right
 		right = 0.0
 	elif event.is_action_pressed("move_left") && left <= 0.01:
-		left = - event.get_action_strength("move_left")
-		direction += left
-	elif event.is_action_released("move_left"):
+		left = event.get_action_strength("move_left")
 		direction -= left
+	elif event.is_action_released("move_left"):
+		direction += left
 		left = 0.0
 	elif event.is_action_pressed("move_up") && up <= 0.01:
 		up = event.get_action_strength("move_up")
