@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Assets/Characters/Adventurer.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -58,6 +58,8 @@
 [ext_resource path="res://Player/Animations/Attack3_air_loop.tres" type="Animation" id=56]
 [ext_resource path="res://Player/Animations/Attack2_air.tres" type="Animation" id=57]
 [ext_resource path="res://Player/States/Attack_air_slam.gd" type="Script" id=58]
+[ext_resource path="res://Player/States/Damage.gd" type="Script" id=59]
+[ext_resource path="res://Player/Animations/Damage.tres" type="Animation" id=60]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 3 )
@@ -97,6 +99,7 @@ texture = ExtResource( 1 )
 centered = false
 vframes = 20
 hframes = 10
+frame = 59
 
 [node name="ItemParent" type="Position2D" parent="Body"]
 position = Vector2( 9, -11 )
@@ -165,6 +168,7 @@ anims/Attack3_air_loop = ExtResource( 56 )
 anims/Climb = ExtResource( 14 )
 anims/Crouch = ExtResource( 18 )
 anims/Crouch_walk = ExtResource( 19 )
+anims/Damage = ExtResource( 60 )
 anims/Draw = ExtResource( 42 )
 anims/Fall = ExtResource( 12 )
 anims/Get_up_pt1 = ExtResource( 37 )
@@ -264,5 +268,8 @@ script = ExtResource( 52 )
 
 [node name="Attack_air_slam" type="Node" parent="StateMachine"]
 script = ExtResource( 58 )
+
+[node name="Damage" type="Node" parent="StateMachine"]
+script = ExtResource( 59 )
 [connection signal="body_entered" from="Body/CornerSpaceCheck" to="." method="_on_CornerSpaceCheck_body_entered"]
 [connection signal="body_exited" from="Body/CornerSpaceCheck" to="." method="_on_CornerSpaceCheck_body_exited"]

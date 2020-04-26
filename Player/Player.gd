@@ -145,7 +145,13 @@ func damage(dir:float, dmg:float = 0.0)->void:
 	if is_damaged:
 		return
 	set_is_damaged(true)
-	state_machine.transition_to("Knock_down", {dir = dir})
+	if is_grounded:
+		if dmg < 2:
+			state_machine.transition_to("Damage", {dir = dir})
+		else:
+			state_machine.transition_to("Knock_down", {dir = dir})
+	else:
+		state_machine.transition_to("Knock_down", {dir = dir})
 
 func set_has_sword(value: bool)->void:
 	has_sword = value

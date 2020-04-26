@@ -24,13 +24,17 @@ func process(delta:float)->void:
 func state_check(anim:String = '')->void:
 	if !anim.empty():
 		_state_machine.transition_to("Idle", {})
-	elif !player.is_grounded:
+	elif player.is_grounded:
 		if player.jump:
+			player.velocity.y = player.jump_speed
+			player.is_jumping = true
+			player.is_grounded = false
+			player.snap.y = player.NO_SNAP
 			_state_machine.transition_to("Jump", {})
-		else:
-			_state_machine.transition_to("Jump_top", {})
-	elif abs(player.direction) > 0.01:
-		_state_machine.transition_to("Run", {})
+		elif abs(player.direction) > 0.01:
+			_state_machine.transition_to("Run", {})
+	else:
+		_state_machine.transition_to("Jump_top", {})
 
 func enter(msg:Dictionary = {})->void:
 	player.sword_is_active = false
