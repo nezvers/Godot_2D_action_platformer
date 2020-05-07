@@ -137,15 +137,14 @@ func facing_direction()->void:
 		body.scale.x = sign(direction)
 
 func set_is_damaged(value:bool)->void:
-	if value == is_damaged:
-		return
-	is_damaged = value
+	if value != is_damaged:
+		is_damaged = value
 
 func damage(dir:float, dmg:float = 0.0)->void:
 	if is_damaged:
 		return
 	set_is_damaged(true)
-	if is_grounded:
+	if !is_grounded:
 		if dmg < 2:
 			state_machine.transition_to("Damage", {dir = dir})
 		else:
