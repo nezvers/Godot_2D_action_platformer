@@ -3,6 +3,10 @@ class_name Player
 
 onready var body:Node2D = $Body
 onready var state_machine: = $"StateMachine"
+onready var grnd1: = $"Body/Grnd1"
+onready var grnd2: = $"Body/Grnd2"
+onready var grnd3: = $"Body/Grnd3"
+var RayGround:bool = false
 var NoWeaponSprite: = preload("res://Assets/Characters/Adventurer.png")
 var WeaponSprite: = preload("res://Assets/Characters/AdventurerWeapon.png")
 
@@ -33,7 +37,7 @@ var down:			= 0.0
 var jump:			= false
 
 var is_grounded:	= false
-var cornercheck:	= 0
+var solidcheck:	= 0
 const SNAP:			= 4.0
 const NO_SNAP:		= 0.0
 var snap:			= Vector2.ZERO
@@ -121,16 +125,23 @@ func collision_logic()->void:
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP, true, 4, floor_angle, false)
 
 func ground_update_logic()->void:
+	RayGround_update()
 	if is_grounded:
-		if !is_on_floor():          #lost the ground
+		if !is_on_floor() || !RayGround:          #lost the ground
 			is_grounded = false
 			snap.y = NO_SNAP
 	else:
-		if is_on_floor():           #just landed
+		if is_on_floor() && RayGround:           #just landed
 			is_grounded = true
 			jump_count = max_jumps
 			snap.y = SNAP
 			last_wall = 0
+
+func RayGround_update()->void:
+	grnd1.force_raycast_update()
+	grnd2.force_raycast_update()
+	grnd3.force_raycast_update()
+	RayGround = grnd1.is_colliding() || grnd2.is_colliding() || grnd3.is_colliding()
 
 func facing_direction()->void:
 	if abs(direction) > 0.0:			#always assume floats can't be equal
@@ -144,7 +155,7 @@ func damage(dir:float, dmg:float = 0.0)->void:
 	if is_damaged:
 		return
 	set_is_damaged(true)
-	if !is_grounded:
+	if is_grounded:
 		if dmg < 2:
 			state_machine.transition_to("Damage", {dir = dir})
 		else:
@@ -165,7 +176,7 @@ func set_sword_is_active(value:bool)->void:
 	sword_is_active = value
 
 func _on_CornerSpaceCheck_body_entered(body):
-	cornercheck += 1
+	solidcheck += 1
 
 func _on_CornerSpaceCheck_body_exited(body):
-	cornercheck -= 1
+	solidcheck -= 1

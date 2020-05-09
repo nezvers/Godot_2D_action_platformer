@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Assets/Characters/Adventurer.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -11,7 +11,7 @@
 [ext_resource path="res://Player/Animations/Run.tres" type="Animation" id=9]
 [ext_resource path="res://Player/Animations/Jump_top.tres" type="Animation" id=10]
 [ext_resource path="res://Player/Animations/Jump_simple.tres" type="Animation" id=11]
-[ext_resource path="res://Player/Animations/Fall.tres" type="Animation" id=12]
+[ext_resource path="res://Player/Animations/Jump_fall.tres" type="Animation" id=12]
 [ext_resource path="res://Player/Animations/Jump.tres" type="Animation" id=13]
 [ext_resource path="res://Player/Animations/Climb.tres" type="Animation" id=14]
 [ext_resource path="res://Player/Animations/Wall_slide.tres" type="Animation" id=15]
@@ -27,7 +27,7 @@
 [ext_resource path="res://Player/States/Jump.gd" type="Script" id=25]
 [ext_resource path="res://Player/Animations/Jump_wall.tres" type="Animation" id=26]
 [ext_resource path="res://Player/States/Jump_top.gd" type="Script" id=27]
-[ext_resource path="res://Player/States/Fall.gd" type="Script" id=28]
+[ext_resource path="res://Player/States/Jump_fall.gd" type="Script" id=28]
 [ext_resource path="res://Player/Animations/Stand_up.tres" type="Animation" id=29]
 [ext_resource path="res://Player/States/Stand_up.gd" type="Script" id=30]
 [ext_resource path="res://Player/Animations/Jump_double.tres" type="Animation" id=31]
@@ -62,7 +62,7 @@
 [ext_resource path="res://Player/Animations/Damage.tres" type="Animation" id=60]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 3 )
+extents = Vector2( 5, 13 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 5, 10 )
@@ -73,12 +73,16 @@ extents = Vector2( 5, 0.5 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 0.5, 0.5 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 5, 17 )
+
 [node name="Player" type="KinematicBody2D"]
-collision_layer = 2
+collision_layer = 4
+collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="Head" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -23 )
+position = Vector2( 0, -13 )
 shape = SubResource( 1 )
 
 [node name="Legs" type="CollisionShape2D" parent="."]
@@ -86,7 +90,6 @@ position = Vector2( 0, -10 )
 shape = SubResource( 2 )
 
 [node name="CornerGrab" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, -27.5 )
 shape = SubResource( 3 )
 disabled = true
@@ -99,44 +102,51 @@ texture = ExtResource( 1 )
 centered = false
 vframes = 20
 hframes = 10
-frame = 59
+frame = 2
 
 [node name="ItemParent" type="Position2D" parent="Body"]
 position = Vector2( 9, -11 )
 
 [node name="CornerSpaceCheck" type="Area2D" parent="Body"]
-visible = false
 input_pickable = false
 monitoring = false
 monitorable = false
 collision_layer = 0
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/CornerSpaceCheck"]
 position = Vector2( 5.5, -27.5 )
 shape = SubResource( 4 )
 
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Body/CornerSpaceCheck"]
+position = Vector2( 0, -10 )
+shape = SubResource( 5 )
+
 [node name="Grnd1" type="RayCast2D" parent="Body"]
-visible = false
 position = Vector2( -5, 0 )
+enabled = true
 cast_to = Vector2( 0, 1 )
+collision_mask = 3
 
 [node name="Grnd2" type="RayCast2D" parent="Body"]
-visible = false
+enabled = true
 cast_to = Vector2( 0, 1 )
+collision_mask = 3
 
 [node name="Grnd3" type="RayCast2D" parent="Body"]
-visible = false
 position = Vector2( 5, 0 )
+enabled = true
 cast_to = Vector2( 0, 1 )
+collision_mask = 3
 
 [node name="HeadCheck1" type="RayCast2D" parent="Body"]
 visible = false
-position = Vector2( -4, -20 )
+position = Vector2( -5, -20 )
 cast_to = Vector2( 0, -7 )
 
 [node name="HeadCheck2" type="RayCast2D" parent="Body"]
 visible = false
-position = Vector2( 4, -20 )
+position = Vector2( 5, -20 )
 cast_to = Vector2( 0, -7 )
 
 [node name="WallCheck1" type="RayCast2D" parent="Body"]
@@ -170,7 +180,6 @@ anims/Crouch = ExtResource( 18 )
 anims/Crouch_walk = ExtResource( 19 )
 anims/Damage = ExtResource( 60 )
 anims/Draw = ExtResource( 42 )
-anims/Fall = ExtResource( 12 )
 anims/Get_up_pt1 = ExtResource( 37 )
 anims/Get_up_pt2 = ExtResource( 39 )
 anims/Hang = ExtResource( 7 )
@@ -179,6 +188,7 @@ anims/Idle_sword = ExtResource( 44 )
 anims/Item = ExtResource( 43 )
 anims/Jump = ExtResource( 13 )
 anims/Jump_double = ExtResource( 31 )
+anims/Jump_fall = ExtResource( 12 )
 anims/Jump_simple = ExtResource( 11 )
 anims/Jump_top = ExtResource( 10 )
 anims/Jump_wall = ExtResource( 26 )
@@ -220,7 +230,7 @@ script = ExtResource( 27 )
 [node name="Jump_double" type="Node" parent="StateMachine"]
 script = ExtResource( 32 )
 
-[node name="Fall" type="Node" parent="StateMachine"]
+[node name="Jump_fall" type="Node" parent="StateMachine"]
 script = ExtResource( 28 )
 
 [node name="Hang" type="Node" parent="StateMachine"]

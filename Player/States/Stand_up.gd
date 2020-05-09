@@ -60,7 +60,7 @@ func state_check(anim:String = '')->void:
 				_state_machine.transition_to('Jump_top', {})
 			elif y > 0.0:
 				timer.stop()
-				_state_machine.transition_to('Fall', {})
+				_state_machine.transition_to('Jump_fall', {})
 			elif y < 0.0:
 				timer.stop()
 				_state_machine.transition_to('Jump', {})

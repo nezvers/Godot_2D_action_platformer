@@ -20,7 +20,7 @@ func unhandled_input(event:InputEvent)->void:
 		player.unhandled_input(event)
 
 func physics_process(delta:float)->void:
-	if player.cornercheck == 0 && player.down <= 0.01:	#place is free for corner collision shape
+	if player.solidcheck == 0 && player.down <= 0.01:	#place is free for corner collision shape
 		cornerGrab.disabled = false
 		cornerGrab.position.x = player.direction	#because can't child to body so we shift position
 	player.physics_process(delta)
@@ -33,22 +33,6 @@ func physics_process(delta:float)->void:
 func process(delta:float)->void:
 	player.facing_direction()
 	state_check()
-
-func enter(msg:Dictionary = {})->void:
-	player.speed = player.run_speed
-	animation.play("Jump_simple")
-	corner.monitorable = true
-	corner.monitoring = true
-	grnd1.enabled = true
-	grnd2.enabled = true
-	grnd3.enabled = true
-
-func exit()->void:
-	corner.monitorable = false
-	corner.monitoring = false
-	grnd1.enabled = false
-	grnd2.enabled = false
-	grnd3.enabled = false
 
 func state_check()->void:
 	var grounded:bool = player.is_grounded
@@ -77,4 +61,20 @@ func state_check()->void:
 			if abs(y) < jump_top_threshold:
 				_state_machine.transition_to('Jump_top', {})
 			elif y > 0.0:
-				_state_machine.transition_to('Fall', {})
+				_state_machine.transition_to('Jump_fall', {})
+
+func enter(msg:Dictionary = {})->void:
+	player.speed = player.run_speed
+	animation.play("Jump_simple")
+	corner.monitorable = true
+	corner.monitoring = true
+	grnd1.enabled = true
+	grnd2.enabled = true
+	grnd3.enabled = true
+
+func exit()->void:
+	corner.monitorable = false
+	corner.monitoring = false
+	grnd1.enabled = false
+	grnd2.enabled = false
+	grnd3.enabled = false

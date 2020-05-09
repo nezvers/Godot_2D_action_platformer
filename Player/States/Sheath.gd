@@ -33,6 +33,8 @@ func state_check(anim:String = '')->void:
 			_state_machine.transition_to("Jump", {})
 		elif abs(player.direction) > 0.01:
 			_state_machine.transition_to("Run", {})
+		elif player.down > 0.01:
+			_state_machine.transition_to("Crouch", {})
 	else:
 		_state_machine.transition_to("Jump_top", {})
 

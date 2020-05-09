@@ -19,19 +19,6 @@ func process(delta:float)->void:
 	player.facing_direction()
 	state_check()
 
-func enter(msg:Dictionary = {})->void:
-	player.speed = player.run_speed
-	SheathTimer.connect("timeout", self, "sheath")
-	if player.sword_is_active:
-		animation.play("Idle_sword")
-		SheathTimer.start()
-	else:
-		animation.play("Idle")
-
-func exit()->void:
-	SheathTimer.disconnect("timeout", self, "sheath")
-	SheathTimer.stop()
-
 func state_check()->void:
 	if player.is_grounded:
 		if player.down > 0.01:
@@ -55,9 +42,22 @@ func state_check()->void:
 			if abs(y) < player.jump_top_speed:
 				_state_machine.transition_to('Jump_top', {})
 			elif y > 0.0:
-				_state_machine.transition_to('Fall', {})
+				_state_machine.transition_to('Jump_fall', {})
 			elif y < 0.0:
 				_state_machine.transition_to('Jump', {})
 
 func sheath()->void:
 	_state_machine.transition_to('Sheath', {})
+
+func enter(msg:Dictionary = {})->void:
+	player.speed = player.run_speed
+	SheathTimer.connect("timeout", self, "sheath")
+	if player.sword_is_active:
+		animation.play("Idle_sword")
+		SheathTimer.start()
+	else:
+		animation.play("Idle")
+
+func exit()->void:
+	SheathTimer.disconnect("timeout", self, "sheath")
+	SheathTimer.stop()

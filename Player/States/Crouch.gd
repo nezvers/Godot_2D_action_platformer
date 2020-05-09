@@ -4,7 +4,6 @@ onready var headCollision: = $"../../Head"
 onready var headCheck1: = $"../../Body/HeadCheck1"
 onready var headCheck2: = $"../../Body/HeadCheck2"
 
-var canStand:bool		= false
 var slide:				= false
 var jump:				= false
 
@@ -26,10 +25,9 @@ func process(delta:float)->void:
 func state_check()->void:
 	headCheck1.force_raycast_update()
 	headCheck2.force_raycast_update()
-	canStand = !headCheck1.is_colliding() && !headCheck2.is_colliding()
-	
+	var CanStand = !headCheck1.is_colliding() && !headCheck2.is_colliding()
 	if player.is_grounded:
-		if !canStand || player.down > 0.01:
+		if !CanStand || player.down > 0.01:
 			if jump:
 				_state_machine.transition_to("Slide", {})
 			elif abs(player.direction) > 0.01:
@@ -46,7 +44,7 @@ func state_check()->void:
 		if abs(y) < player.jump_top_speed:
 			_state_machine.transition_to('Jump_top', {})
 		elif y > 0.0:
-			_state_machine.transition_to('Fall', {})
+			_state_machine.transition_to('Jump_fall', {})
 		elif y < 0.0:
 			_state_machine.transition_to('Jump', {})
 
@@ -56,6 +54,12 @@ func enter(msg:Dictionary = {})->void:
 	headCollision.disabled = true
 	headCheck1.enabled = true
 	headCheck2.enabled = true
+	if !msg.empty():
+		if msg.has("wait"):
+			if msg.wait:
+				_state_machine.set_process(false)
+				yield(get_tree(), "idle_frame")
+				_state_machine.set_process(true)
 
 func exit()->void:
 	headCollision.disabled = false

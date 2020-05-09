@@ -53,7 +53,7 @@ func state_check(anim:String = '')->void:
 				if abs(y) < player.jump_top_speed:
 					_state_machine.transition_to('Jump_top', {})
 				elif y > 0.0:
-					_state_machine.transition_to('Fall', {})
+					_state_machine.transition_to('Jump_fall', {})
 				elif y < 0.0:
 					_state_machine.transition_to('Jump', {})
 
