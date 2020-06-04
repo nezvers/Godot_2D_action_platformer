@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Tiles/TileSetterGround/tileset_TileSetterGround.tres" type="TileSet" id=1]
+
+[node name="MovingPlatform" type="TileMap"]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+collision_use_kinematic = true
+format = 1
+tile_data = PoolIntArray( 0, 56, 0, 1, 56, 0, 2, 56, 0, 3, 56, 0 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://Assets/Characters/Adventurer.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -60,6 +60,7 @@
 [ext_resource path="res://Player/States/Attack_air_slam.gd" type="Script" id=58]
 [ext_resource path="res://Player/States/Damage.gd" type="Script" id=59]
 [ext_resource path="res://Player/Animations/Damage.tres" type="Animation" id=60]
+[ext_resource path="res://Player/States/Jump_group.gd" type="Script" id=61]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 13 )
@@ -102,23 +103,20 @@ texture = ExtResource( 1 )
 centered = false
 vframes = 20
 hframes = 10
-frame = 2
 
 [node name="ItemParent" type="Position2D" parent="Body"]
 position = Vector2( 9, -11 )
 
-[node name="CornerSpaceCheck" type="Area2D" parent="Body"]
+[node name="SolidCheck" type="Area2D" parent="Body"]
 input_pickable = false
-monitoring = false
-monitorable = false
 collision_layer = 0
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/CornerSpaceCheck"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/SolidCheck"]
 position = Vector2( 5.5, -27.5 )
 shape = SubResource( 4 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Body/CornerSpaceCheck"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Body/SolidCheck"]
 position = Vector2( 0, -10 )
 shape = SubResource( 5 )
 
@@ -218,20 +216,23 @@ script = ExtResource( 5 )
 [node name="Run" type="Node" parent="StateMachine"]
 script = ExtResource( 4 )
 
-[node name="Jump" type="Node" parent="StateMachine"]
+[node name="Jump_group" type="Node" parent="StateMachine"]
+script = ExtResource( 61 )
+
+[node name="Jump" type="Node" parent="StateMachine/Jump_group"]
 script = ExtResource( 25 )
 
-[node name="Jump_wall" type="Node" parent="StateMachine"]
-script = ExtResource( 6 )
-
-[node name="Jump_top" type="Node" parent="StateMachine"]
+[node name="Jump_top" type="Node" parent="StateMachine/Jump_group"]
 script = ExtResource( 27 )
 
-[node name="Jump_double" type="Node" parent="StateMachine"]
+[node name="Jump_fall" type="Node" parent="StateMachine/Jump_group"]
+script = ExtResource( 28 )
+
+[node name="Jump_double" type="Node" parent="StateMachine/Jump_group"]
 script = ExtResource( 32 )
 
-[node name="Jump_fall" type="Node" parent="StateMachine"]
-script = ExtResource( 28 )
+[node name="Jump_wall" type="Node" parent="StateMachine/Jump_group"]
+script = ExtResource( 6 )
 
 [node name="Hang" type="Node" parent="StateMachine"]
 script = ExtResource( 16 )
@@ -281,5 +282,5 @@ script = ExtResource( 58 )
 
 [node name="Damage" type="Node" parent="StateMachine"]
 script = ExtResource( 59 )
-[connection signal="body_entered" from="Body/CornerSpaceCheck" to="." method="_on_CornerSpaceCheck_body_entered"]
-[connection signal="body_exited" from="Body/CornerSpaceCheck" to="." method="_on_CornerSpaceCheck_body_exited"]
+[connection signal="body_entered" from="Body/SolidCheck" to="." method="_on_CornerSpaceCheck_body_entered"]
+[connection signal="body_exited" from="Body/SolidCheck" to="." method="_on_CornerSpaceCheck_body_exited"]

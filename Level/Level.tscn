@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Tiles/TileSetterGround/tileset_TileSetterGround.tres" type="TileSet" id=2]
@@ -6,6 +6,22 @@
 [ext_resource path="res://Objects/Sword.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/BG/back.png" type="Texture" id=5]
 [ext_resource path="res://Assets/BG/middle.png" type="Texture" id=6]
+[ext_resource path="res://Objects/MovingPlatform.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Move"
+length = 8.0
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 160, -0.25, 0, 1.13, -0.5, 32, -1.13, -0.5, 1.17, 0.5, 160, -1.52, -0.5, 0.25, 0 ),
+"times": PoolRealArray( 0, 4, 8 )
+}
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -46,6 +62,16 @@ collision_layer = 2
 collision_mask = 4
 format = 1
 tile_data = PoolIntArray( 393228, 53, 0, 393229, 54, 0 )
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="MovingPlatform" parent="Objects" instance=ExtResource( 7 )]
+position = Vector2( 160, -16 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Objects/MovingPlatform"]
+autoplay = "Move"
+playback_process_mode = 0
+anims/Move = SubResource( 1 )
 
 [node name="Items" type="Node2D" parent="."]
 
