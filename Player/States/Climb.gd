@@ -36,9 +36,9 @@ func state_check(anim:String = '')->void:
 			_state_machine.transition_to("Crouch")
 	else:
 		if abs(player.direction) > 0.0:
-			_state_machine.transition_to("Run", {})
+			_state_machine.transition_to("Run")
 		else:
-			_state_machine.transition_to("Idle", {})
+			_state_machine.transition_to("Idle")
 
 func enter(msg:Dictionary = {})->void:
 	animation.play("Climb")
