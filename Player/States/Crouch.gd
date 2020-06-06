@@ -54,12 +54,6 @@ func enter(msg:Dictionary = {})->void:
 	headCollision.disabled = true
 	headCheck1.enabled = true
 	headCheck2.enabled = true
-	if !msg.empty():
-		if msg.has("wait"):
-			if msg.wait:
-				_state_machine.set_process(false)
-				yield(get_tree(), "idle_frame")
-				_state_machine.set_process(true)
 
 func exit()->void:
 	headCollision.disabled = false

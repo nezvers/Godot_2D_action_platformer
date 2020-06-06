@@ -30,9 +30,10 @@ func state_check(anim:String = '')->void:
 	
 	if !canStand || player.down > 0.01:
 		if abs(player.direction) > 0.0:
-			_state_machine.transition_to("Crouch_walk", {wait = true})
+			_state_machine.transition_to("Crouch_walk")
 		else:
-			_state_machine.transition_to("Crouch", {wait = true})
+			
+			_state_machine.transition_to("Crouch")
 	else:
 		if abs(player.direction) > 0.0:
 			_state_machine.transition_to("Run", {})

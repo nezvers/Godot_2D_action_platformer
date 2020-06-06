@@ -45,6 +45,7 @@ func state_check()->void:
 func enter(msg:Dictionary = {})->void:
 	animation.play("Hang")
 	dir = player.direction
+	player.last_wall = sign(dir)
 	cornerGrab.disabled = false
 	cornerGrab.position.x = player.direction
 	#player.jump_count = 0
@@ -52,4 +53,5 @@ func enter(msg:Dictionary = {})->void:
 func exit()->void:
 	cornerGrab.disabled = false
 	cornerGrab.position.x = 0.0
+	player.ground_update_logic()
 	
