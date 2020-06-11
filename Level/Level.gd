@@ -8,6 +8,8 @@ func set_time_scale(value:float)->void:
 func _unhandled_input(event):
 	if event.is_action_pressed("restart"):
 		get_tree().reload_current_scene()
+	elif event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
 	elif event.is_action_pressed("click"):
 		var player = find_node("Player")
 		player.damage(sign((player.position - get_local_mouse_position()).x))
