@@ -79,4 +79,4 @@ anims/Move = SubResource( 1 )
 position = Vector2( 288, 32 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 536, 160 )
+position = Vector2( 80, 160 )
