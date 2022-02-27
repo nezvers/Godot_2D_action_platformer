@@ -103,6 +103,7 @@ texture = ExtResource( 1 )
 centered = false
 vframes = 20
 hframes = 10
+frame = 93
 
 [node name="ItemParent" type="Position2D" parent="Body"]
 position = Vector2( 9, -11 )
